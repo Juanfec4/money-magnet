@@ -15,11 +15,8 @@ const BudgetCard: FC<BudgetCardProps> = ({ name, unique_code }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
-    <div
-      className="flex
-flex-col p-4 space-y-2 border-2 w-64 h-40 rounded-md cursor-pointer transition-all duration-200 border-gray-500 hover:border-lime-500 justify-between"
-    >
-      <span>
+    <div className="flex flex-col p-4 border-2 h-40 rounded-md cursor-pointer transition-all duration-200 border-gray-500 hover:border-lime-500 justify-between">
+      <span className="max-w-min">
         <h3
           className=" text-xl capitalize mb-2 truncate max-w-min"
           onMouseEnter={() => setShowTooltip(true)}

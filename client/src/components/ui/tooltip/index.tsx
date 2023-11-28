@@ -15,7 +15,7 @@ const Tooltip: FC<TooltipProps> = ({ text, isVisible }) => {
 
   return isVisible ? (
     <div
-      className="fixed text-slate-200 px-2 rounded-full text-xs py-1 z-50 bg-gray-700 italic"
+      className="fixed text-slate-200 px-2 rounded-full text-xs py-1 z-50 bg-gray-700 italic  hidden sm:block"
       style={{
         left: `${mousePosition.x + offset}px`,
         top: `${mousePosition.y + offset}px`,

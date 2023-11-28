@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-const Loader: FC = () => {
+const DefaultLoader: FC = () => {
   return (
     <div
       role="status"
@@ -26,4 +26,4 @@ const Loader: FC = () => {
     </div>
   );
 };
-export default Loader;
+export default DefaultLoader;

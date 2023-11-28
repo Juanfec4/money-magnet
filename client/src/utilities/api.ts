@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const BASE_URL = "http://192.168.31.22:8080";
 
@@ -18,8 +18,10 @@ const fetchData = (
       headers: AUTH_HEADER,
       params: { ...queryParams },
     })
-    .then((response) => response.data)
-    .catch((error) => error.message);
+    .then((response: AxiosResponse) => response.data)
+    .catch((error: AxiosError) => {
+      throw new Error(error.message);
+    });
 };
 
 export default {
