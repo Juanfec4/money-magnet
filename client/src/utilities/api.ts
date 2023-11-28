@@ -24,6 +24,17 @@ const fetchData = (
     });
 };
 
+const postData = (endpoint: string, data?: AxiosRequestConfig["data"]) => {
+  const requestUrl = BASE_URL + endpoint;
+  return axios
+    .post(requestUrl, data, { headers: AUTH_HEADER })
+    .then((response: AxiosResponse) => response.data)
+    .catch((error: AxiosError) => {
+      throw new Error(error.message);
+    });
+};
+
 export default {
   fetchData,
+  postData,
 };

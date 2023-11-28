@@ -3,3 +3,7 @@ export interface Budget {
   name: string;
   unique_code: string;
 }
+
+export interface NewBudget {
+  name: string;
+}

@@ -4,21 +4,24 @@ import { FC, FormEvent, ReactNode } from "react";
 interface FormContainerProps {
   title?: string;
   children?: ReactNode;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  hideBorder?: boolean;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 const FormContainer: FC<FormContainerProps> = ({
   title,
   children,
   onSubmit,
+  hideBorder,
 }) => {
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit(e);
+        onSubmit ? onSubmit(e) : null;
       }}
       className="border-2 border-gray-500 rounded-md p-4"
+      style={hideBorder ? { border: "none" } : {}}
     >
       {title ? <h3>{title}</h3> : null}
       <div className="flex flex-col p-2 gap-2 max-w-max mx-auto items-center sm:items-start">
