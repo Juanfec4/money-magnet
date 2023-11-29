@@ -8,6 +8,8 @@ export interface Budget {
   name: string;
   unique_code: string;
   members?: Member[];
+  is_owner?: boolean;
+  user_id?: number;
 }
 
 export interface NewBudget {
@@ -20,4 +22,13 @@ export interface Account {
   account_type: string;
   amount: number;
   budget_id: number;
+}
+
+export interface Transaction {
+  id: number;
+  name: string;
+  description: string;
+  transaction_type: string;
+  amount: number;
+  transaction_date: string;
 }
