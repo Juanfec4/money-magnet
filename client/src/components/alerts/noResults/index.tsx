@@ -1,5 +1,5 @@
-import { FC } from "react";
 import { IconMoodEmpty } from "@tabler/icons-react";
+import { FC } from "react";
 
 //Define prop structure
 interface NoResultsCardProps {

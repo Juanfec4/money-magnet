@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Budget } from "../../../types/global";
-import BudgetCard from "../../cards/budgetCard";
 import NoResultsCard from "../../alerts/noResults";
+import BudgetCard from "../../cards/budgetCard";
 
 //Define prop structure
 interface BudgetListProps {
@@ -23,7 +23,11 @@ const BudgetList: FC<BudgetListProps> = ({ budgets }) => {
         {budgets.map((budget: Budget) => {
           return (
             <li key={budget.id}>
-              <BudgetCard name={budget.name} unique_code={budget.unique_code} />
+              <BudgetCard
+                name={budget.name}
+                unique_code={budget.unique_code}
+                id={budget.id}
+              />
             </li>
           );
         })}

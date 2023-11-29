@@ -1,5 +1,5 @@
-import { FC, useEffect } from "react";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { FC, useEffect } from "react";
 
 // Define prop structure
 interface InfoCardProps {

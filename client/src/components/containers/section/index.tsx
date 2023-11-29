@@ -22,10 +22,10 @@ const SectionContainer: FC<SectionContainerProps> = ({
   sectionSearch,
 }) => {
   return (
-    <section className="flex flex-col space-y-8 my-16 p-6 text-gray-100 max-w-6xl mx-auto">
+    <section className="flex flex-col space-y-8 my-12 p-6  text-gray-100 max-w-6xl mx-auto relative">
       {title ? (
         <div className="flex flex-col  items-center md:items-start space-y-4 lg:space-y-0 lg:flex-row lg:justify-between">
-          <h1 className="text-3xl font-bold">
+          <h1 className=" text-2xl md:text-3xl font-bold">
             {title}{" "}
             {titleLink ? (
               <span>
@@ -47,7 +47,7 @@ const SectionContainer: FC<SectionContainerProps> = ({
           ) : null}
         </div>
       ) : null}
-      <div>{children}</div>
+      <div className="pt-2">{children}</div>
     </section>
   );
 };

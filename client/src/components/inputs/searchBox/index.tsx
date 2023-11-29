@@ -1,5 +1,5 @@
-import { ChangeEvent, FC } from "react";
 import { IconSearch } from "@tabler/icons-react";
+import { ChangeEvent, FC } from "react";
 
 //Define prop structure
 export interface SearchBoxProps {

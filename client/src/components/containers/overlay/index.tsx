@@ -1,6 +1,6 @@
+import { IconX } from "@tabler/icons-react";
 import { FC, ReactNode } from "react";
 import useDisableScroll from "../../../hooks/useDisableScroll";
-import { IconX } from "@tabler/icons-react";
 
 //Define prop structure
 interface OverlayContainerProps {
