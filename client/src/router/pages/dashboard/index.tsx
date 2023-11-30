@@ -1,4 +1,4 @@
-import { IconSquarePlus2 } from "@tabler/icons-react";
+import { IconTablePlus } from "@tabler/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import ErrorCard from "../../../components/alerts/error";
@@ -102,7 +102,7 @@ const DashboardPage: FC = () => {
               text="Create"
               onClick={() => newBudgetMutation.mutate({ name: newBudgetName })}
             >
-              <IconSquarePlus2 className="w-4 h-4" />
+              <IconTablePlus className="w-4 h-4" />
             </PrimaryButton>
             {formMessage ? (
               <InfoCard

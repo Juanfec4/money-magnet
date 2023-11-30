@@ -121,7 +121,7 @@ const BudgetPage: FC = () => {
               text="Delete budget"
               onClick={() => setShowDeleteConfirmation(true)}
             >
-              <IconTrashFilled />
+              <IconTrashFilled className="h-5 w-5" />
             </PrimaryButton>
           </div>
         ) : null}
@@ -130,7 +130,7 @@ const BudgetPage: FC = () => {
         <OverlayContainer closeFn={() => setShowEditForm(false)}>
           <FormContainer hideBorder={true} onSubmit={() => ""}>
             <h1 className=" text-slate-200 font-bold text-2xl mx-auto w-64 text-center">
-              Edit budget "{budget.name}"
+              Edit budget <span className="text-lime-500">{budget.name}</span>
             </h1>
             <TextInput
               placeholder="Budget name"

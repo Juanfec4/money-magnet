@@ -17,7 +17,7 @@ export interface NewBudget {
 }
 
 export interface Account {
-  id: number;
+  id?: number;
   name: string;
   account_type: string;
   amount: number;
