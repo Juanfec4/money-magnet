@@ -1,18 +1,18 @@
 import { Request, Response } from "express";
-import knexConfig from "../../knexfile";
 import knexLibrary from "knex";
-import {
-  isValidRequestBody,
-  isValidRequestParams,
-  isMemberOfBudget,
-} from "../services/validators";
-import { generateUUID } from "../services/uuidGenerator";
+import knexConfig from "../../knexfile";
 import { Budget } from "../models/budget.model";
 import {
   addBudgetMember,
   getBudgetMembers,
   removeBudgetMember,
 } from "../services/budgetMembers";
+import { generateUUID } from "../services/uuidGenerator";
+import {
+  isMemberOfBudget,
+  isValidRequestBody,
+  isValidRequestParams,
+} from "../services/validators";
 
 const knex = knexLibrary(knexConfig);
 
@@ -108,7 +108,20 @@ const getBudget = async (req: Request, res: Response) => {
       .select("username", "id")
       .whereIn("id", memberIds);
 
-    return res.status(200).json({ ...budget, members: budgetMembers });
+    //Get budget owner
+    const budgetOwners = await knex("budget_members")
+      .where({
+        budget_id: req.params.id,
+        member_type: "owner",
+      })
+      .pluck("budget_members.member_id");
+
+    //Check if user is owner
+    const is_owner = budgetOwners.includes(user_id);
+
+    return res
+      .status(200)
+      .json({ ...budget, is_owner, user_id, members: budgetMembers });
   } catch (e) {
     return res.status(500).json(e);
   }
@@ -142,13 +155,14 @@ const editBudget = async (req: Request, res: Response) => {
   try {
     //Extract request body members array
     const newMembers: Member[] = req.body.members;
+    const newMembersIds = newMembers.map((member) => member.id);
 
     //Get existing budget members array
     const existingBudgetMembers = await getBudgetMembers(knex, req.params.id);
 
     //Remove budget members that are not existent in the new members array provided by the client
     await existingBudgetMembers.map((memberId) => {
-      if (!newMembers.includes(memberId)) {
+      if (!newMembersIds.includes(memberId)) {
         removeBudgetMember(knex, req.params.id, memberId);
       }
     });

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import knexConfig from "../../knexfile";
 import knexLibrary from "knex";
+import knexConfig from "../../knexfile";
+import { Transaction } from "../models/transaction.model";
 import {
   isMemberOfBudget,
   isValidDateTimeFormat,
@@ -9,7 +10,6 @@ import {
   isValidRequestParams,
   isValidRequestQuery,
 } from "../services/validators";
-import { Transaction } from "../models/transaction.model";
 
 const knex = knexLibrary(knexConfig);
 
@@ -136,11 +136,13 @@ const getTransactions = async (req: Request, res: Response) => {
 
   //Extract optional query params
   let accountId = req.query.account_id || undefined;
+  let accountType = req.query.account_type || undefined;
   let [startDate, endDate] = [req.query.from, req.query.to] || undefined;
 
   //Handle filter by accountId type
   interface ExtraQueryParams {
     "accounts.id"?: string;
+    "accounts.account_type"?: string;
   }
 
   let extraQueryParams: ExtraQueryParams = {};
@@ -148,6 +150,10 @@ const getTransactions = async (req: Request, res: Response) => {
   //Add extra query params
   if (typeof accountId === "string") {
     extraQueryParams["accounts.id"] = accountId;
+  }
+
+  if (typeof accountType === "string") {
+    extraQueryParams["accounts.account_type"] = accountType;
   }
 
   //Format dates & check if they are valid format
@@ -178,7 +184,9 @@ const getTransactions = async (req: Request, res: Response) => {
           "transactions.amount",
           "transactions.description",
           "transactions.transaction_date",
-          "accounts.account_type as transaction_type"
+          "transactions.account_id",
+          "accounts.account_type as transaction_type",
+          "accounts.name as account_name"
         )
         .join("accounts", "accounts.id", "=", "transactions.account_id")
         .where({ budget_id: req.query.budget_id, ...extraQueryParams })
@@ -191,7 +199,9 @@ const getTransactions = async (req: Request, res: Response) => {
           "transactions.amount",
           "transactions.description",
           "transactions.transaction_date",
-          "accounts.account_type as transaction_type"
+          "transactions.account_id",
+          "accounts.account_type as transaction_type",
+          "accounts.name as account_name"
         )
         .join("accounts", "accounts.id", "=", "transactions.account_id")
         .where({ budget_id: req.query.budget_id, ...extraQueryParams });

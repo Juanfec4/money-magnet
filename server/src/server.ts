@@ -3,6 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import ip from "ip";
 
+import cors from "./config/cors";
 import authMiddleware from "./middlewares/auth.middleware";
 
 import budgetRouter from "./routers/budget.router";
@@ -14,6 +15,8 @@ import "./config/passport";
 
 const port: string = process.env.PORT || "8080";
 const app = express();
+
+app.use(cors);
 
 app.use(express.json());
 
