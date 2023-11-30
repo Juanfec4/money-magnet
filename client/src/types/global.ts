@@ -31,4 +31,6 @@ export interface Transaction {
   transaction_type: string;
   amount: number;
   transaction_date: string;
+  account_name: string;
+  account_id: number | string;
 }

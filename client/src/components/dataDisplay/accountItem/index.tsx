@@ -129,7 +129,7 @@ const AccountItem: FC<AccountItemProps> = ({ account }) => {
       {showEditForm ? (
         <OverlayContainer closeFn={() => setShowEditForm(false)}>
           <FormContainer hideBorder={true} onSubmit={() => ""}>
-            <h1 className=" text-slate-200 font-bold text-2xl mx-auto w-64 text-center">
+            <h1 className=" text-slate-200 font-bold text-2xl mx-auto text-center">
               Edit account <span className="text-lime-500">{account.name}</span>
             </h1>
             <TextInput

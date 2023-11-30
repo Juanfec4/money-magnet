@@ -16,7 +16,7 @@ const TextInput: FC<TextInputProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col space-y-1 text-slate-200">
+    <div className="flex flex-col space-y-1 text-slate-200 w-full md:w-64 ">
       <label htmlFor={id} className="font-bold">
         {label}
       </label>
@@ -27,7 +27,7 @@ const TextInput: FC<TextInputProps> = ({
         name={id}
         value={value}
         onChange={onChange}
-        className="border-[1px] p-2 rounded-md w-full md:w-64 placeholder:text-sm outline-none focus:border-lime-500 bg-gray-500/10 border-gray-500"
+        className="border-[1px] p-2 rounded-md placeholder:text-sm outline-none focus:border-lime-500 bg-gray-500/10 border-gray-500"
       />
     </div>
   );

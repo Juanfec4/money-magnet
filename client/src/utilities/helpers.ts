@@ -44,3 +44,14 @@ export const formatMoney = (amount: number): string => {
 
   return formattedAmount;
 };
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  return formattedDate;
+};

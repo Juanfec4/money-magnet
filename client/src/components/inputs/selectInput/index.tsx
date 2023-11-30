@@ -25,13 +25,13 @@ const SelectInput: FC<SelectInputProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 w-full md:w-64">
       <label htmlFor="custom-select" className="font-bold">
         {label}
       </label>
       <div className="relative inline-block" id="custom-select">
         <div
-          className="selected-option cursor-pointer capitalize border-[1px] p-2 rounded-md w-full md:w-64 placeholder:text-sm outline-none focus:border-lime-500 bg-gray-500/10 border-gray-500"
+          className="selected-option cursor-pointer capitalize border-[1px] p-2 rounded-md placeholder:text-sm outline-none focus:border-lime-500 bg-gray-500/10 border-gray-500"
           onClick={toggleDropdown}
         >
           <p>{selected || "Select an option"}</p>

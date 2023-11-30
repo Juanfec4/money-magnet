@@ -14,6 +14,7 @@ import AccountGroup from "../../../components/dataDisplay/accountGroup";
 import TextInput from "../../../components/inputs/textInput";
 import BudgetMembersList from "../../../components/lists/budgetMemberList";
 import EditMembersList from "../../../components/lists/editMembersList";
+import TransactionList from "../../../components/lists/transactionList";
 import DefaultLoader from "../../../components/loaders/defaultLoader";
 import FeaturedText from "../../../components/ui/featuredText";
 import { Budget, Member } from "../../../types/global";
@@ -114,6 +115,7 @@ const BudgetPage: FC = () => {
             budgetId={budget.id}
           />
         </BudgetContainer>
+        <TransactionList budgetId={budget.id} />
         <BudgetMembersList members={budget.members} />
         {budget.is_owner ? (
           <div className=" w-48 my-12">
