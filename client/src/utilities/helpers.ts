@@ -55,3 +55,10 @@ export const formatDate = (dateString: string) => {
 
   return formattedDate;
 };
+export const formatDateForRecord = (inputDate: Date): string => {
+  const year = inputDate.getFullYear();
+  const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+  const day = String(inputDate.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};

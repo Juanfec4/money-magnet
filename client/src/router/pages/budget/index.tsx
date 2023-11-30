@@ -117,6 +117,7 @@ const BudgetPage: FC = () => {
         </BudgetContainer>
         <TransactionList budgetId={budget.id} />
         <BudgetMembersList members={budget.members} />
+
         {budget.is_owner ? (
           <div className=" w-48 my-12">
             <PrimaryButton

@@ -7,11 +7,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FC, useEffect, useState } from "react";
 import { Account, Transaction } from "../../../types/global";
 import api from "../../../utilities/api";
-import { formatMoney } from "../../../utilities/helpers";
+import { formatDateForRecord, formatMoney } from "../../../utilities/helpers";
 import IconButton from "../../buttons/iconButton";
 import PrimaryButton from "../../buttons/primaryButton";
 import FormContainer from "../../containers/form";
 import OverlayContainer from "../../containers/overlay";
+import { useDateRange } from "../../context/dateRange";
 import SelectInput from "../../inputs/selectInput";
 import TextInput from "../../inputs/textInput";
 import ProgressBar from "../../ui/progressBar";
@@ -32,14 +33,25 @@ const AccountItem: FC<AccountItemProps> = ({ account }) => {
   const [newAccountAmount, setNewAccountAmount] = useState("");
   const [newAccountType, setNewAccountType] = useState("");
 
+  const { fromDate, toDate } = useDateRange();
+
   //Fetch budget transactions for type
   const budgetTransactionsQuery = useQuery({
-    queryKey: ["budgetTransactions", account.id],
-    queryFn: () =>
-      api.fetchData("/transactions", {
+    queryKey: ["transactions", account.id, fromDate, toDate],
+    queryFn: () => {
+      let extraQueryParams;
+      if (fromDate && toDate) {
+        extraQueryParams = {
+          from: formatDateForRecord(fromDate),
+          to: formatDateForRecord(toDate),
+        };
+      }
+      return api.fetchData("/transactions", {
         budget_id: account.budget_id,
         account_id: account.id,
-      }),
+        ...extraQueryParams,
+      });
+    },
   });
 
   //Update account

@@ -3,10 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
 import { Transaction } from "../../../types/global";
 import api from "../../../utilities/api";
-import { formatDate, formatMoney } from "../../../utilities/helpers";
+import {
+  formatDate,
+  formatDateForRecord,
+  formatMoney,
+} from "../../../utilities/helpers";
 import IconButton from "../../buttons/iconButton";
 import PrimaryButton from "../../buttons/primaryButton";
 import OverlayContainer from "../../containers/overlay";
+import { useDateRange } from "../../context/dateRange";
+import DatePicker from "../../inputs/datePicker";
 import DefaultLoader from "../../loaders/defaultLoader";
 
 interface TransactionListProps {
@@ -20,12 +26,26 @@ const TransactionList: FC<TransactionListProps> = ({ budgetId }) => {
     Transaction | undefined
   >(undefined);
 
+  const { fromDate, toDate, setFromDate, setToDate } = useDateRange();
+
   //Show delete confirmation
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   const transactionsQuery = useQuery({
-    queryKey: ["transactions", budgetId],
-    queryFn: () => api.fetchData(`/transactions`, { budget_id: budgetId }),
+    queryKey: ["transactions", budgetId, fromDate, toDate],
+    queryFn: () => {
+      let extraQueryParams;
+      if (fromDate && toDate) {
+        extraQueryParams = {
+          from: formatDateForRecord(fromDate),
+          to: formatDateForRecord(toDate),
+        };
+      }
+      return api.fetchData(`/transactions`, {
+        budget_id: budgetId,
+        ...extraQueryParams,
+      });
+    },
   });
 
   //Delete transaction
@@ -46,11 +66,35 @@ const TransactionList: FC<TransactionListProps> = ({ budgetId }) => {
       <h3 className="text-2xl mb-3 pl-2 border-l border-lime-500 text-slate-200">
         Transactions
       </h3>
-      <div className="max-h-96 overflow-y-auto rounded-md">
-        {transactionsQuery.isLoading && <DefaultLoader />}
-        {transactionsQuery.isSuccess && (
-          <table className="min-w-full divide-y divide-gray-200/20 rounded-md overflow-hidden">
-            <thead className="bg-slate-500/20">
+      <div className="pb-6">
+        <h5 className="text-lg py-2 font-bold text-lime-500">
+          Date range to display transactions:
+        </h5>
+        <div className="flex gap-2">
+          <DatePicker
+            label="From:"
+            id="fromDate"
+            selectedDate={fromDate}
+            changeFn={(date) => {
+              if (fromDate !== date) setFromDate(date);
+            }}
+          />
+          <DatePicker
+            label="To:"
+            id="toDate"
+            selectedDate={toDate}
+            changeFn={(date) => {
+              if (toDate !== date) setToDate(date);
+            }}
+          />
+        </div>
+      </div>
+
+      {transactionsQuery.isLoading && <DefaultLoader />}
+      {transactionsQuery.isSuccess && transactions.length > 0 && (
+        <div className="max-h-96 overflow-y-scroll rounded-md">
+          <table className="min-w-full overflow-hidden border-gray-700 border-2">
+            <thead className="bg-gray-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-bold text-slate-200 uppercase tracking-wider">
                   Name
@@ -67,7 +111,7 @@ const TransactionList: FC<TransactionListProps> = ({ budgetId }) => {
               {transactions.map((transaction: Transaction) => (
                 <tr
                   key={transaction.id}
-                  className="bg-slate-500/20 hover:bg-slate-500/30 cursor-pointer "
+                  className=" hover:bg-slate-700/10 cursor-pointer  border-b-[1px] border-gray-200/20 last:border-none"
                   onClick={() => {
                     setShowTransactionDetails(true);
                     setSelectedTransaction(transaction);
@@ -95,8 +139,8 @@ const TransactionList: FC<TransactionListProps> = ({ budgetId }) => {
               ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
       {showTransactionDetails && selectedTransaction ? (
         <OverlayContainer closeFn={() => setShowTransactionDetails(false)}>
           <div className="flex sm:items-start  w-72 sm:w-full sm:h-48 sm:border-b-[1px] pb-6 border-slate-700 flex-col sm:flex-row mx-auto">
